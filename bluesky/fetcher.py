@@ -80,20 +80,24 @@ def fetch_diverse_posts(self, queries, max_total_posts=200000, sleep_time=1):
         print(f"\n Query: '{query}' (Total so far: {total})")
 
         try:
+        print("✅ Logged in to Bluesky.")
+
+    def fetch_posts(self, query='a', max_posts=1000, sleep_time=1):
+        cursor = None
+        total = 0
+        all_posts = []
+
+        while total < max_posts:
             resp = self.client.app.bsky.feed.search_posts({
                 'q': query,
                 'limit': 100,
                 'cursor': cursor
             })
-        except Exception as e:
-            print(f" Error for query '{query}': {e}")
-            continue
 
         posts = resp.posts
         if not posts:
             print(f" No more posts for query '{query}' — skipping future rounds")
             inactive_queries.add(query)
-            continue
 
         new_posts_this_query = 0
         for post in posts:
