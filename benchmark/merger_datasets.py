@@ -16,10 +16,14 @@ def merge_datasets(datasets):
 if __name__ == "__main__":
     # Paths to your parsed dataset jsonl files
     paths = [
-        "/Users/eliasmac/PycharmProjects/Praktikum/Data/parsed_dataset_01.jsonl",
-        "/Users/eliasmac/PycharmProjects/Praktikum/Data/parsed_dataset_02.jsonl",
-        "/Users/eliasmac/PycharmProjects/Praktikum/Data/parsed_dataset_03.jsonl",
-        "/Users/eliasmac/PycharmProjects/Praktikum/Data/parsed_dataset_04.jsonl",
+        "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/parsed_dataset_01.jsonl",
+        "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/parsed_dataset_02.jsonl",
+        "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/parsed_dataset_03.jsonl",
+        "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/parsed_dataset_04.jsonl",
+        "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/parsed_dataset_05.jsonl",
+        "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/parsed_dataset_06.jsonl",
+        "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/parsed_dataset_07.jsonl"
+
     ]
 
     # Load all datasets
@@ -29,7 +33,7 @@ if __name__ == "__main__":
     merged_dataset = merge_datasets(all_datasets)
 
     # Save merged dataset
-    output_path = "/Users/eliasmac/PycharmProjects/Praktikum/Data/merged_dataset.jsonl"
+    output_path = "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/merged_dataset.jsonl"
     with open(output_path, "w", encoding="utf-8") as f:
         for entry in merged_dataset:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")
