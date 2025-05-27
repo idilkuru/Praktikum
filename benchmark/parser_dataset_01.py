@@ -14,7 +14,8 @@ def parse_dataset_01(filepath):
                         "text": full_text,
                         "tokens": [token for token, _ in sentence],
                         "labels_unified": [map_label(label) for _, label in sentence],  # moved here
-                        "labels": [label for _, label in sentence],                      # moved after labels_unified
+                        "labels": [label for _, label in sentence],# moved after labels_unified
+                        "source": "LinCE (spa-eng)"
                     }
                     parsed_data.append(entry)
                     sentence = []
@@ -40,17 +41,17 @@ def parse_dataset_01(filepath):
 def map_label(label):
     label = label.lower()
     lang_map = {
-        "lang1": "english",
-        "lang2": "spanish",
-        "en": "english",
-        "english": "english",
-        "es": "spanish",
-        "spanish": "spanish",
-        "de": "german",
-        "tr": "turkish",
-        "hi": "hindi",
-        "id": "indonesian",
-        "ne": "nepali",
+        "lang1": "en",
+        "lang2": "es",
+        "en": "en",
+        "english": "en",
+        "es": "es",
+        "spanish": "es",
+        "de": "de",
+        "tr": "tr",
+        "hi": "hi",
+        "id": "id",
+        "ne": "named_entity",
         "un": "other",
         "other": "other",
         "OTHER": "Other"
