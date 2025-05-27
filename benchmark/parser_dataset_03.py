@@ -3,17 +3,17 @@ import json
 def map_label(label):
     label = label.lower()
     lang_map = {
-        "lang1": "english",
-        "lang2": "spanish",
-        "en": "english",
-        "english": "english",
-        "es": "spanish",
-        "spanish": "spanish",
-        "de": "german",
-        "tr": "turkish",
-        "hi": "hindi",
-        "id": "indonesian",
-        "ne": "nepali",
+        "lang1": "en",
+        "lang2": "es",
+        "en": "en",
+        "english": "en",
+        "es": "es",
+        "spanish": "es",
+        "de": "de",
+        "tr": "tr",
+        "hi": "hi",
+        "id": "id",
+        "ne": "named_entity",
         "un": "other",
         "other": "other",
         "OTHER": "Other"
