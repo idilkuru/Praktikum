@@ -33,6 +33,7 @@ def parse_dataset_01(filepath):
                 "tokens": [token for token, _ in sentence],
                 "labels_unified": [map_label(label) for _, label in sentence],  # moved here
                 "labels": [label for _, label in sentence],                      # moved after labels_unified
+                "source": "LinCE (spa-eng)"
             }
             parsed_data.append(entry)
     return parsed_data
@@ -41,16 +42,16 @@ def parse_dataset_01(filepath):
 def map_label(label):
     label = label.lower()
     lang_map = {
-        "lang1": "en",
-        "lang2": "es",
-        "en": "en",
-        "english": "en",
-        "es": "es",
-        "spanish": "es",
-        "de": "de",
-        "tr": "tr",
-        "hi": "hi",
-        "id": "id",
+        "lang1": "eng",
+        "lang2": "spa",
+        "en": "eng",
+        "english": "eng",
+        "es": "spa",
+        "spanish": "spa",
+        "de": "deu",
+        "tr": "tur",
+        "hi": "hin",
+        "id": "ind",
         "ne": "named_entity",
         "un": "other",
         "other": "other",
@@ -61,7 +62,7 @@ def map_label(label):
 # 🔽 Insert this block at the end to run and save the result
 if __name__ == "__main__":
     # ⬅️ Use your correct path here
-    filepath = "/Users/eliasmac/PycharmProjects/Praktikum/Data/dataset_01.conll"
+    filepath = "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/dataset_01.conll"
     parsed_data = parse_dataset_01(filepath)
 
     # Show a few examples to check
@@ -70,7 +71,7 @@ if __name__ == "__main__":
         print(json.dumps(entry, indent=2, ensure_ascii=False))
 
     # Save as JSONL
-    output_path = "/Users/eliasmac/PycharmProjects/Praktikum/Data/parsed_dataset_01.jsonl"
+    output_path = "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/parsed_dataset_01.jsonl"
     with open(output_path, "w", encoding="utf-8") as f:
         for entry in parsed_data:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")
