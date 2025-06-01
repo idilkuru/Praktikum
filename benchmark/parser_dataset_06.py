@@ -42,8 +42,8 @@ def parse_dataset_06(filepath):
 def map_label(label):
     label = label.lower()
     lang_map = {
-        "lang1": "en",
-        "lang2": "ne",
+        "lang1": "eng",
+        "lang2": "nep",
         "ne": "named_entity",
         "other": "other",
         "un": "other"
