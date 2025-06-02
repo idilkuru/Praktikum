@@ -4,17 +4,17 @@ import re
 def map_label(label):
     label = label.lower()
     lang_map = {
-        "lang1": "english",
-        "lang2": "spanish",
-        "en": "english",
-        "english": "english",
-        "es": "spanish",
-        "spanish": "spanish",
-        "de": "german",
-        "tr": "turkish",
-        "hi": "hindi",
-        "id": "indonesian",
-        "ne": "nepali",
+        "lang1": "eng",
+        "lang2": "spa",
+        "en": "eng",
+        "english": "eng",
+        "es": "spa",
+        "spanish": "spa",
+        "de": "deu",
+        "tr": "tur",
+        "hi": "hin",
+        "id": "ind",
+        "ne": "named_entity",
         "un": "other",
         "other": "other",
         "OTHER": "Other"
@@ -57,15 +57,15 @@ def parse_dataset_04(filepath):
                         "text": text,
                         "tokens": sentence_tokens,
                         "labels_unified": sentence_labels_unified,
-                        "sent_id": sent_id,
+                        #"sent_id": sent_id,
                         "labels": sentence_labels,
-                        "pos": sentence_pos,
-                        "xpos": sentence_xpos,
-                        "feats": sentence_feats,
-                        "head": sentence_head,
-                        "deprel": sentence_deprel,
-                        "deps": sentence_deps,
-                        "misc": sentence_misc
+                        #"pos": sentence_pos,
+                        #"xpos": sentence_xpos,
+                        #"feats": sentence_feats,
+                        #"head": sentence_head,
+                        #"deprel": sentence_deprel,
+                        #"deps": sentence_deps,
+                        #"misc": sentence_misc
                     }
                     parsed_data.append(entry)
 
@@ -133,14 +133,14 @@ def parse_dataset_04(filepath):
     return parsed_data
 
 if __name__ == "__main__":
-    filepath = "/Users/eliasmac/PycharmProjects/Praktikum/Data/dataset_04.conllu"
+    filepath = "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/dataset_04.conllu"
     parsed_data = parse_dataset_04(filepath)
 
     print("Sample entries:")
     for entry in parsed_data[:2]:
         print(json.dumps(entry, indent=2, ensure_ascii=False))
 
-    output_path = "/Users/eliasmac/PycharmProjects/Praktikum/Data/parsed_dataset_04.jsonl"
+    output_path = "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/parsed_dataset_04.jsonl"
     with open(output_path, "w", encoding="utf-8") as f:
         for entry in parsed_data:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")
