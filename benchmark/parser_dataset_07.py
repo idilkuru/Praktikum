@@ -10,7 +10,7 @@ def parse_dataset_07(filepath):
                 if sentence:
                     full_text = " ".join([token for token, _ in sentence])
                     entry = {
-                        "id": f"ds2_{str(len(parsed_data)+1).zfill(6)}",
+                        "id": f"ds7_{str(len(parsed_data)+1).zfill(6)}",
                         "text": full_text,
                         "tokens": [token for token, _ in sentence],
                         "labels_unified": [map_label(label) for _, label in sentence],
@@ -29,7 +29,7 @@ def parse_dataset_07(filepath):
             full_text = " ".join([token for token, _ in sentence])
             entry = {
                 #"id": f"ds2_{str(len(parsed_data)+1).zfill(6)}",
-                "id": f"ds1_{str(len(parsed_data) + 1).zfill(6)}",
+                "id": f"ds7_{str(len(parsed_data) + 1).zfill(6)}",
                 "text": full_text,
                 "tokens": [token for token, _ in sentence],
                 "labels_unified": [map_label(label) for _, label in sentence],
@@ -51,14 +51,14 @@ def map_label(label):
     return lang_map.get(label, "other")
 
 if __name__ == "__main__":
-    filepath = "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/dataset_07.conll"
+    filepath = "../Data/dataset_07.conll"
     parsed_data = parse_dataset_07(filepath)
 
     print("Sample entries:")
     for entry in parsed_data[:2]:
         print(json.dumps(entry, indent=2, ensure_ascii=False))
 
-    output_path = "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/parsed_dataset_07.jsonl"
+    output_path = "../Data/parsed_dataset_07.jsonl"
     with open(output_path, "w", encoding="utf-8") as f:
         for entry in parsed_data:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")

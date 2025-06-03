@@ -62,7 +62,7 @@ def map_label(label):
 # 🔽 Insert this block at the end to run and save the result
 if __name__ == "__main__":
     # ⬅️ Use your correct path here
-    filepath = "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/dataset_01.conll"
+    filepath = "../Data/dataset_01.conll"
     parsed_data = parse_dataset_01(filepath)
 
     # Show a few examples to check
@@ -71,7 +71,7 @@ if __name__ == "__main__":
         print(json.dumps(entry, indent=2, ensure_ascii=False))
 
     # Save as JSONL
-    output_path = "/Users/faisal/PycharmProjects/PythonProject/Praktikum/Data/parsed_dataset_01.jsonl"
+    output_path = "../Data/parsed_dataset_01.jsonl"
     with open(output_path, "w", encoding="utf-8") as f:
         for entry in parsed_data:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")
