@@ -3,27 +3,25 @@ import difflib
 from collections import defaultdict, Counter
 from sklearn.metrics import classification_report, accuracy_score
 
-
-# File paths
-predicted_path = "../Data/masklid_merged_dataset_100.jsonl"
-benchmark_path = "../Data/merged_dataset_100.jsonl"
+# File path (single file with both benchmark and prediction)
+data_path = "../Data/masklid_merged_dataset_100.jsonl"
 
 def load_jsonl(path):
     with open(path, "r", encoding="utf-8") as f:
         return [json.loads(line) for line in f]
 
-def evaluate_code_switching(benchmark_data, prediction_data):
+def evaluate_code_switching(data):
     benchmark_labels = []
     predicted_labels = []
     total_aligned = 0
     total_b_tokens = 0
     total_p_tokens = 0
 
-    for b, p in zip(benchmark_data, prediction_data):
-        b_tokens = b["tokens"]
-        p_tokens = p["predicted_tokens"]
-        b_langs = b["labels_unified"]
-        p_langs = p["predicted_labels"]
+    for entry in data:
+        b_tokens = entry.get("tokens", [])
+        p_tokens = entry.get("predicted_tokens", b_tokens)  # fallback to benchmark tokens if missing
+        b_langs = entry.get("labels_unified", [])
+        p_langs = entry.get("predicted_labels", [])
 
         total_b_tokens += len(b_tokens)
         total_p_tokens += len(p_tokens)
@@ -73,10 +71,9 @@ def evaluate_code_switching(benchmark_data, prediction_data):
         digits=2, zero_division=0
     ))
 
-
     # --- Language Coverage ---
-    benchmark_langs = set(label for x in benchmark_data for label in x["labels_unified"])
-    predicted_langs = set(label for x in prediction_data for label in x["labels_unified"])
+    benchmark_langs = set(label for x in data for label in x.get("labels_unified", []))
+    predicted_langs = set(label for x in data for label in x.get("predicted_labels", []))
 
     common = benchmark_langs & predicted_langs
     missed = benchmark_langs - predicted_langs
@@ -90,8 +87,7 @@ def evaluate_code_switching(benchmark_data, prediction_data):
     print("Languages hallucinated (in prediction but not in benchmark):")
     print("  " + ", ".join(sorted(hallucinated)) if hallucinated else "  None")
 
-if __name__ == "__main__":
-    benchmark_data = load_jsonl(benchmark_path)
-    prediction_data = load_jsonl(predicted_path)
 
-    evaluate_code_switching(benchmark_data, prediction_data)
+if __name__ == "__main__":
+    data = load_jsonl(data_path)
+    evaluate_code_switching(data)
