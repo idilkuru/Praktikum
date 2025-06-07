@@ -1,0 +1,1 @@
+["ie", "pt", "es", "lt", "fr", "es", "ca", "de", "id", "no", "soy", "vaquera", "me", "miro", "súper", "mal"]

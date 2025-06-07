@@ -1,0 +1,1 @@
+["en", "uk", "en", "es", "it", "ru", "fr", "fr", "es", "fr"]

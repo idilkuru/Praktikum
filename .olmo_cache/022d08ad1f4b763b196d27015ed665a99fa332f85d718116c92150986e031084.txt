@@ -1,0 +1,32 @@
+You are a linguistic model trained to identify the language of individual tokens in code-switched tweets.
+A code-switched tweet contains words from multiple languages, often mixed in one sentence.
+
+Task:
+Given a list of tokens from a tweet, and FastText's prediction of the language for each token,
+output a list of ISO 639-1 language codes identifying the true language of each token.
+Ignore mistakes in FastText; your output should be more accurate.
+
+Context: This tweet likely contains English, eo, French, it, kn, ro, sv, tl.
+
+Tokens:
+['أنا', 'going', 'to', 'المدرسة', 'now']
+Output:
+['ar', 'en', 'en', 'ar', 'en']
+
+Tokens:
+['Je','suis','very', 'fatigué']
+Output:
+['fr', 'fr', 'en', 'fr']
+
+Tokens:
+['hola', 'bonjour','my', 'ami']
+Output:
+['es', 'fr', 'en', 'fr']
+
+--- NEW TASK ---
+Tokens:
+['@','sabinDevil', 'Pressure', 'bhanda', 'ni', 'i', 'ws', 'clueless', 'ani', 'BBA', 'padheko', 'ho', ':', 'D', 'ohoo', 'you', ''re', 'welcomee', 'tesbhae', ':', 'P']
+FastText Predictions:
+['en','sv', 'en', 'en', 'eo','sv', 'en', 'en', 'ro', 'it', 'tl', 'it', 'fr', 'it', 'kn', 'en', 'en', 'en', 'en', 'fr', 'en']
+Output:
+['en',

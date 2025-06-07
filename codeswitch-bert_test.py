@@ -4,7 +4,9 @@ import torch
 from tqdm import tqdm
 
 # Load model and tokenizer
-model_name = "sagorsarker/codeswitch-spaeng-lid-lince"
+#model_name = "sagorsarker/codeswitch-spaeng-lid-lince"
+model_name = "sagorsarker/codeswitch-hineng-lid-lince"
+#model_name = "sagorsarker/codeswitch-nepeng-lid-lince"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForTokenClassification.from_pretrained(model_name)
 model.eval()
@@ -14,10 +16,10 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 # Input and output file paths
-input_path = "Data/parsed_dataset_test.jsonl"
-output_path = "Data/codeswitch_predictions.jsonl"
+input_path = "Data/parsed_dataset_03.jsonl"
+output_path = "Data/dataset4_predictions.jsonl"
 
-
+'''
 def predict_labels(tokens):
     # Get tokenizer output as a BatchEncoding object (to access word_ids)
     encoding = tokenizer(tokens, is_split_into_words=True, return_offsets_mapping=True, return_tensors=None,
@@ -42,6 +44,45 @@ def predict_labels(tokens):
             continue
         label = id2label[predictions[idx]]
         token_predictions.append(label)
+        prev_word_id = word_id
+
+    return token_predictions
+'''
+def predict_labels(tokens):
+    # Get tokenizer output as a BatchEncoding object (to access word_ids)
+    encoding = tokenizer(tokens, is_split_into_words=True, return_offsets_mapping=True, return_tensors=None,
+                         padding=True, truncation=True)
+
+    word_ids = encoding.word_ids()
+    inputs = tokenizer(tokens, is_split_into_words=True, return_tensors="pt", padding=True, truncation=True)
+    inputs = {k: v.to(device) for k, v in inputs.items()}
+
+    with torch.no_grad():
+        outputs = model(**inputs)
+
+    logits = outputs.logits
+    predictions = torch.argmax(logits, dim=2)[0].cpu().numpy()
+    id2label = model.config.id2label
+
+    # Define label mapping
+    label_map = {
+        "en": "eng",
+        "es": "spa",
+        "ne": "named_entity",
+        "hi": "hin",
+        "bn": "ben",
+        "unk": "other"  # Optional: map 'unk' to something consistent
+    }
+
+    # Align predictions to word-level
+    token_predictions = []
+    prev_word_id = None
+    for idx, word_id in enumerate(word_ids):
+        if word_id is None or word_id == prev_word_id:
+            continue
+        raw_label = id2label[predictions[idx]]
+        mapped_label = label_map.get(raw_label, raw_label)  # apply mapping
+        token_predictions.append(mapped_label)
         prev_word_id = word_id
 
     return token_predictions

@@ -59,7 +59,7 @@ class BlueskyFetcher:
         return all_posts
 '''
 
-def fetch_diverse_posts(self, queries, max_total_posts=400000, sleep_time=1):
+def fetch_diverse_posts(self, queries, max_total_posts=200000, sleep_time=1):
     from itertools import cycle
 
     all_posts = []
