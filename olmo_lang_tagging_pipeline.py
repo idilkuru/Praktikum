@@ -34,7 +34,6 @@ device = torch.device("cpu")
 # Model ID for OLMo 1B Instruct
 model_id = "allenai/OLMo-2-0425-1B-Instruct"
 
-# Load tokenizer and model using Auto classes
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(model_id).to(device)
 
