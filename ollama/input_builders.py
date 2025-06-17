@@ -1,12 +1,15 @@
 # Responsible for creating different input variations from the data
 
 import spacy
-
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from methodology.ollama_masklid_run import run_masklid
+import fasttext
+from pathlib import Path
 
+FASTTEXT_MODEL_PATH = Path(__file__).parent.parent / "models" / "lid.176.bin"
+fasttext_model = fasttext.load_model(str(FASTTEXT_MODEL_PATH))
 
 def build_input_raw_text(entry):
     """Return raw text only."""
@@ -49,8 +52,11 @@ def build_input_token_lid(entry):
         "masklid_predictions": masklid_predictions
     }
 
+def build_input_fasttext_lid(entry):
+    return entry["text"]
 
-    """""
+
+"""""
     text = entry["text"]
     result = run_masklid(text)
 

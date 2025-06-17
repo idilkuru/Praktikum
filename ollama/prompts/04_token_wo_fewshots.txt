@@ -1,0 +1,14 @@
+You are a expert NLP assistant.
+You are given a list of tokens from a sentence. Assign an ISO 639-3 language code to each token.
+
+OUTPUT RULES:
+- Your response must contain **exactly TWO lines**.
+  - **LINE 1**: The input tokens, space-separated.
+  - **LINE 2**: The ISO 639-3 language codes for each token, in the same order, strictly comma-separated.
+  - The number of language tags must **match the number of tokens exactly**.
+  - DO NOT ADD any notes, comments, or explanations. Output only the TWO lines and nothing else.
+
+Input Tokens:
+{{ tokens }}
+
+Output:
