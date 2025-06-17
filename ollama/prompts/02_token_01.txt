@@ -1,0 +1,12 @@
+You are a language identification model.
+You are given a list of tokens from a sentence.
+For each token, identify its language using ISO 639-3 codes like 'eng' for English, 'deu' for German, 'tur' for Turkish, etc.
+If it is a punctuation label it as "other".
+
+Return in the format:
+<token>: <label>
+
+Do NOT explain, summarize, or add extra lines.
+
+Tokens:
+{text}

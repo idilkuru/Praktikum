@@ -1,0 +1,13 @@
+You will receive a short social media post. It may contain code-switching (multiple languages in one sentence).
+
+Your task is to label each token.
+If it is a word label its language using only ISO 639-3 (eng, deu, nep, ...) codes.
+If it is a punctuation (like: ".", ",", ";", "?", "!") label it as "other".
+
+Return each token and its language in this format:
+<token>: <label>
+
+Do NOT explain, summarize, or add extra lines.
+
+Sentence:
+{text}
