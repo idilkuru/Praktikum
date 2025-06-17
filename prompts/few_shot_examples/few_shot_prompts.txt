@@ -1,0 +1,29 @@
+Input: Ana went to المدرسة today.
+Output: [{"token": "Ana", "lang": "en"}, {"token": "went", "lang": "en"}, {"token": "to", "lang": "en"}, {"token": "المدرسة", "lang": "ar"}, {"token": "today", "lang": "en"}]
+
+Input: He is watching televisión con su familia.
+Output: [{"token": "He", "lang": "en"}, {"token": "is", "lang": "en"}, {"token": "watching", "lang": "en"}, {"token": "televisión", "lang": "es"}, {"token": "con", "lang": "es"}, {"token": "su", "lang": "es"}, {"token": "familia", "lang": "es"}]
+
+Input: The party was bahut zabardast!
+Output: [{"token": "The", "lang": "en"}, {"token": "party", "lang": "en"}, {"token": "was", "lang": "en"}, {"token": "bahut", "lang": "hi"}, {"token": "zabardast", "lang": "hi"}]
+
+Input: Er spielt mit arkadaşları im Park.
+Output: [{"token": "Er", "lang": "de"}, {"token": "spielt", "lang": "de"}, {"token": "mit", "lang": "de"}, {"token": "arkadaşları", "lang": "tr"}, {"token": "im", "lang": "de"}, {"token": "Park", "lang": "de"}]
+
+Input: My name is Sita र मेरो साथी राम हो।
+Output: [{"token": "My", "lang": "en"}, {"token": "name", "lang": "en"}, {"token": "is", "lang": "en"}, {"token": "Sita", "lang": "ne"}, {"token": "र", "lang": "ne"}, {"token": "मेरो", "lang": "ne"}, {"token": "साथी", "lang": "ne"}, {"token": "राम", "lang": "ne"}, {"token": "हो।", "lang": "ne"}]
+
+Input: Dem go waka for road like say na dem get am.
+Output: [{"token": "Dem", "lang": "pcm"}, {"token": "go", "lang": "pcm"}, {"token": "waka", "lang": "pcm"}, {"token": "for", "lang": "pcm"}, {"token": "road", "lang": "en"}, {"token": "like", "lang": "en"}, {"token": "say", "lang": "pcm"}, {"token": "na", "lang": "pcm"}, {"token": "dem", "lang": "pcm"}, {"token": "get", "lang": "en"}, {"token": "am", "lang": "pcm"}]
+
+Input: Wetin be dis one again?
+Output: [{"token": "Wetin", "lang": "pcm"}, {"token": "be", "lang": "en"}, {"token": "dis", "lang": "pcm"}, {"token": "one", "lang": "en"}, {"token": "again", "lang": "en"}]
+
+Input: Bro went to the mandi to buy sabzi.
+Output: [{"token": "Bro", "lang": "en"}, {"token": "went", "lang": "en"}, {"token": "to", "lang": "en"}, {"token": "the", "lang": "en"}, {"token": "mandi", "lang": "hi"}, {"token": "to", "lang": "en"}, {"token": "buy", "lang": "en"}, {"token": "sabzi", "lang": "hi"}]
+
+Input: Let's go yaar, the movie is starting.
+Output: [{"token": "Let's", "lang": "en"}, {"token": "go", "lang": "en"}, {"token": "yaar", "lang": "hi"}, {"token": "the", "lang": "en"}, {"token": "movie", "lang": "en"}, {"token": "is", "lang": "en"}, {"token": "starting", "lang": "en"}]
+
+Input: {{text}}
+Output:
