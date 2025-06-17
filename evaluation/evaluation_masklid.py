@@ -4,7 +4,7 @@ from collections import defaultdict, Counter
 from sklearn.metrics import classification_report, accuracy_score
 
 # File path (single file with both benchmark and prediction)
-data_path = "../Data/masklid_merged_dataset_100.jsonl"
+data_path = "../Data/masklid_merged_dataset_6000.jsonl"
 
 def load_jsonl(path):
     with open(path, "r", encoding="utf-8") as f:
