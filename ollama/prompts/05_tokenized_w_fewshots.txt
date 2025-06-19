@@ -1,15 +1,14 @@
 You are a expert NLP assistant.
-You are given a list of input tokens from a sentence. Assign an ISO 639-3 language code to each token. If it is a punctuation label it as "other".
+You are given a list of input tokens from a sentence. Assign an ISO 639-3 language code to each token like 'eng' for English, 'deu' for German, 'tur' for Turkish, 'hin' for Hindi, 'nep' for Nepali, 'ind' for Indonesian, 'arb' for Modern Arabic, 'arz' for Egyptian Arabic etc.
+If it is a punctuation or emoji, label it as "other".
 
 Refer to the format shown in the example block below and mimic it's structure :
 {{ few_shot_block }}
 
-OUTPUT RULES:
-- Your response must contain exactly TWO lines.
-  - LINE 1: The input tokens, space-separated.
-  - LINE 2: The ISO 639-3 language codes for each token, in the same order, strictly comma-separated.
-  - The number of language tags must match the number of tokens exactly.
-  - DO NOT ADD any notes, comments, or explanations. Output only the TWO lines and nothing else.
+Return in the format:
+<token>: <label>
 
-input tokens:
-{text}
+Do NOT explain, summarize, or add extra lines. Avoid adding
+
+Tokens:
+{tokens}

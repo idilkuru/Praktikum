@@ -1,0 +1,19 @@
+"Los": spa
+"lunes": spa
+"son": other
+"el": spa
+"inicio": spa
+"de": spa
+"una": spa
+"semana": spa
+"llena": spa
+"de": spa
+"bendiciones": spa
+"familia": spa
+"!!": other
+"!": other
+"Se": spa
+"les": fra
+"ama": spa
+".." : other
+".…": other

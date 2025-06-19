@@ -8,7 +8,7 @@ from output_formatter import format_output
 from config import CONFIG
 from pathlib import Path
 import fasttext
-LID_MODEL = fasttext.load_model("../models/lid.176.bin")
+#LID_MODEL = fasttext.load_model("../models/lid.176.bin")
 
 
 INPUT_BUILDERS = {
@@ -25,14 +25,14 @@ def load_few_shot_block(path: str) -> str:
     if Path(path).exists():
         return Path(path).read_text(encoding="utf-8").strip()
     return ""
-
+'''
 # Analyzing language distribution-fasttext
 def analyze_languages(text: str, top_k: int = 3):
     predictions = LID_MODEL.predict(text, k=top_k)
     labels = [label.replace("__label__", "") for label in predictions[0]]
     probs = predictions[1]
     return {label: round(prob * 100, 2) for label, prob in zip(labels, probs)}
-
+'''
 
 def main():
     input_fn = INPUT_BUILDERS[CONFIG["input_mode"]]
@@ -47,13 +47,13 @@ def main():
             input_data = input_fn(entry)
 
             # Run FastText to get lang composition
-            lang_composition = analyze_languages(entry["text"])
+            #lang_composition = analyze_languages(entry["text"])
 
             # Build the prompt using all available context
             prompt = build_prompt(
                 input_data=input_data,
                 prompt_id=CONFIG["prompt_id"],
-                lang_composition=lang_composition,
+                #lang_composition=lang_composition,
                 few_shot_block=few_shot_block
             )
 

@@ -8,8 +8,8 @@ def format_output(entry_id, original_text, llm_response):
 
     lines = llm_response.strip().splitlines()
     for line in lines:
-        # Match lines like "1. Hi: en" or "Hi: en"
-        match = re.search(r"(?:\d+\.\s*)?([^:]+):\s*([a-z]{2,3})", line.strip())
+        # Matching lines like "1. '@agaazo': tur" or '"Just": other'
+        match = re.search(r'(?:\d+\.\s*)?[\'"]?(.+?)[\'"]?:\s*([a-z]{2,5})', line.strip())
         if match:
             token = match.group(1).strip()
             label = match.group(2).strip()
