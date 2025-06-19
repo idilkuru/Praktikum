@@ -6,12 +6,14 @@ import numpy as np
 from model_runner import query_llm
 from output_formatter import format_output
 from config import CONFIG
+from pathlib import Path
 import fasttext
 LID_MODEL = fasttext.load_model("../models/lid.176.bin")  # load once globally
 
 
 INPUT_BUILDERS = {
     "raw_text": build_input_raw_text,
+    "raw_tokens":build_input_raw_tokens,
     "tokenized": build_input_tokenized,
     "dominant_lang": build_input_dominant_lang,
     "token_lid": build_input_token_lid,

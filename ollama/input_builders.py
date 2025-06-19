@@ -11,6 +11,9 @@ def build_input_raw_text(entry):
     """Return raw text only."""
     return entry["text"]
 
+def build_input_raw_tokens(entry):
+    """Return raw tokens only."""
+    return entry["tokens"]
 
 nlp = spacy.load("en_core_web_sm")
 def build_input_tokenized(entry):
