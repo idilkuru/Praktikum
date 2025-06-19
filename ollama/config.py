@@ -1,8 +1,13 @@
 # Stores experiment configuration
 
+# rawText: raw text input
+# tokenized: tokenized input using spaCy
+# fasttext_lid: uses FastText for sentence-level LID
+# maskLid: uses MaskLID for token-level LID
+
 CONFIG = {
-    "input_mode": "fasttext_lid",  # Options: raw_text, tokenized, dominant_lang, token_lid, fasttext_lid
-    "prompt_id": 0,
+    "input_mode": "tokenized",  # Options: rawText, tokenized, fasttext_lid, maskLid
+    "prompt_id": 3,
     "input_path": "../Praktikum/Data/merged_dataset_4.jsonl",
     "output_path": "../Praktikum/Data/llama3_merged_dataset_4_04.jsonl"
 }
