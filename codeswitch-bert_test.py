@@ -4,7 +4,7 @@ import torch
 from tqdm import tqdm
 
 # Load model and tokenizer
-model_name = "sagorsarker/codeswitch-spaeng-lid-lince"
+model_name = "sagorsarker/codeswitch-nepeng-lid-lince"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForTokenClassification.from_pretrained(model_name)
 model.eval()
@@ -14,8 +14,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 # Input and output file paths
-input_path = "Data/parsed_dataset_test.jsonl"
-output_path = "Data/codeswitch_predictions.jsonl"
+input_path = "Data/merged_dataset_1500.jsonl"
+output_path = "Data/merged_dataset_1500_nep.jsonl"
 
 
 def predict_labels(tokens):

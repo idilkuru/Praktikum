@@ -2,19 +2,22 @@
 import json
 from input_builders import *
 from prompt_builder import build_prompt
-
+import numpy as np
 from model_runner import query_llm
 from output_formatter import format_output
 from config import CONFIG
+from pathlib import Path
 import fasttext
-#LID_MODEL = fasttext.load_model("models/lid.176.bin")  # load once globally
+LID_MODEL = fasttext.load_model("../models/lid.176.bin")
 
 
 INPUT_BUILDERS = {
-    "rawText": build_input_raw_text,
+    "raw_text": build_input_raw_text,
+    "raw_tokens":build_input_raw_tokens,
     "tokenized": build_input_tokenized,
+    "dominant_lang": build_input_dominant_lang,
     "fasttext_lid": build_input_fasttext_lid,
-    "maskLid": build_input_token_lid,
+    "maskLid": build_input_token_lid
 }
 
 # Loading few-shot blocks
@@ -33,7 +36,7 @@ def analyze_languages(text: str, top_k: int = 3):
 
 def main():
     input_fn = INPUT_BUILDERS[CONFIG["input_mode"]]
-    #few_shot_block = load_few_shot_block(CONFIG.get("few_shot_path", ""))  # optional
+    few_shot_block = load_few_shot_block(CONFIG.get("few_shot_path", ""))  # optional
 
     with open(CONFIG["input_path"], "r", encoding="utf-8") as f_in, \
          open(CONFIG["output_path"], "w", encoding="utf-8") as f_out:
@@ -44,14 +47,14 @@ def main():
             input_data = input_fn(entry)
 
             # Run FastText to get lang composition
-            #lang_composition = analyze_languages(entry["text"])
+            lang_composition = analyze_languages(entry["text"])
 
             # Build the prompt using all available context
             prompt = build_prompt(
                 input_data=input_data,
                 prompt_id=CONFIG["prompt_id"],
-            #    lang_composition=lang_composition,
-            #    few_shot_block=few_shot_block
+                lang_composition=lang_composition,
+                few_shot_block=few_shot_block
             )
 
             print(f"\nProcessing: {entry['id']}")

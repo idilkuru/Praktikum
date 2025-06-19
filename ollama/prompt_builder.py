@@ -2,7 +2,7 @@
 
 import os
 
-PROMPT_DIR = "../Praktikum/ollama/prompts"
+PROMPT_DIR = "../ollama/prompts"
 
 def build_prompt(input_data, prompt_id: int, lang_composition: dict = None, few_shot_block: str = "") -> str:
     """
@@ -33,8 +33,12 @@ def build_prompt(input_data, prompt_id: int, lang_composition: dict = None, few_
         return template.format(**format_vars)
     else:
         # if input_data is string or list, make sure tokens/text placeholders are set
+        '''
         if isinstance(input_data, list):
             tokens_str = " ".join(input_data)
+        '''
+        if isinstance(input_data, list):
+            tokens_str = "[" + ", ".join(f'"{t}"' for t in input_data) + "]"
         else:
             tokens_str = input_data
 
