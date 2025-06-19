@@ -8,7 +8,7 @@ from output_formatter import format_output
 from config import CONFIG
 from pathlib import Path
 import fasttext
-LID_MODEL = fasttext.load_model("../models/lid.176.bin")  # load once globally
+LID_MODEL = fasttext.load_model("../models/lid.176.bin")
 
 
 INPUT_BUILDERS = {
@@ -16,8 +16,8 @@ INPUT_BUILDERS = {
     "raw_tokens":build_input_raw_tokens,
     "tokenized": build_input_tokenized,
     "dominant_lang": build_input_dominant_lang,
-    "token_lid": build_input_token_lid,
-    "fasttext_lid": build_input_fasttext_lid
+    "fasttext_lid": build_input_fasttext_lid,
+    "maskLid": build_input_token_lid
 }
 
 # Loading few-shot blocks
