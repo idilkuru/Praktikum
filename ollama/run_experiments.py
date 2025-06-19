@@ -7,7 +7,7 @@ from model_runner import query_llm
 from output_formatter import format_output
 from config import CONFIG
 import fasttext
-LID_MODEL = fasttext.load_model("models/lid.176.bin")  # load once globally
+#LID_MODEL = fasttext.load_model("models/lid.176.bin")  # load once globally
 
 
 INPUT_BUILDERS = {
@@ -34,7 +34,7 @@ def analyze_languages(text: str, top_k: int = 3):
 
 def main():
     input_fn = INPUT_BUILDERS[CONFIG["input_mode"]]
-    few_shot_block = load_few_shot_block(CONFIG.get("few_shot_path", ""))  # optional
+    #few_shot_block = load_few_shot_block(CONFIG.get("few_shot_path", ""))  # optional
 
     with open(CONFIG["input_path"], "r", encoding="utf-8") as f_in, \
          open(CONFIG["output_path"], "w", encoding="utf-8") as f_out:
@@ -45,14 +45,14 @@ def main():
             input_data = input_fn(entry)
 
             # Run FastText to get lang composition
-            lang_composition = analyze_languages(entry["text"])
+            #lang_composition = analyze_languages(entry["text"])
 
             # Build the prompt using all available context
             prompt = build_prompt(
                 input_data=input_data,
                 prompt_id=CONFIG["prompt_id"],
-                lang_composition=lang_composition,
-                few_shot_block=few_shot_block
+            #    lang_composition=lang_composition,
+            #    few_shot_block=few_shot_block
             )
 
             print(f"\nProcessing: {entry['id']}")
