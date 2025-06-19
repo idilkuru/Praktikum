@@ -11,11 +11,10 @@ import fasttext
 
 
 INPUT_BUILDERS = {
-    "raw_text": build_input_raw_text,
+    "rawText": build_input_raw_text,
     "tokenized": build_input_tokenized,
-    "dominant_lang": build_input_dominant_lang,
-    "token_lid": build_input_token_lid,
-    "fasttext_lid": build_input_fasttext_lid
+    "fasttext_lid": build_input_fasttext_lid,
+    "maskLid": build_input_token_lid,
 }
 
 # Loading few-shot blocks
