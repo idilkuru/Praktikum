@@ -2,12 +2,12 @@
 import json
 from input_builders import *
 from prompt_builder import build_prompt
-
+import numpy as np
 from model_runner import query_llm
 from output_formatter import format_output
 from config import CONFIG
 import fasttext
-LID_MODEL = fasttext.load_model("models/lid.176.bin")  # load once globally
+LID_MODEL = fasttext.load_model("../models/lid.176.bin")  # load once globally
 
 
 INPUT_BUILDERS = {

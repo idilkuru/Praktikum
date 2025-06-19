@@ -4,7 +4,7 @@ import spacy
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from methodology.ollama_masklid_run import run_masklid
+#from methodology.ollama_masklid_run import run_masklid
 import fasttext
 from pathlib import Path
 

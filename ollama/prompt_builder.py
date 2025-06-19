@@ -2,7 +2,7 @@
 
 import os
 
-PROMPT_DIR = "../Praktikum/ollama/prompts"
+PROMPT_DIR = "../ollama/prompts"
 
 def build_prompt(input_data, prompt_id: int, lang_composition: dict = None, few_shot_block: str = "") -> str:
     """
