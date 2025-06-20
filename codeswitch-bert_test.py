@@ -14,7 +14,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 # Input and output file paths
-input_path = "Data/merged_dataset_1500.jsonl"
+input_path = "Data/merged_dataset_500.jsonl"
 output_path = "Data/merged_dataset_1500_nep.jsonl"
 
 

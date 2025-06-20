@@ -1,13 +1,13 @@
-from sklearn.metrics import precision_recall_fscore_support
+from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 from collections import Counter
 import json
 
 # Load original benchmark file (ground truth)
-with open("../Data/merged_dataset_1050.jsonl", "r", encoding="utf-8") as f:
+with open("../Data/merged_dataset_500.jsonl", "r", encoding="utf-8") as f:
     gold_data = {entry["id"]: entry for entry in map(json.loads, f)}
 
 # Load predictions file
-with open("../Data/llama3_merged_dataset_1050.jsonl", "r", encoding="utf-8") as f:
+with open("../Data/llama3_merged_dataset_500_2.jsonl", "r", encoding="utf-8") as f:
     pred_data = [json.loads(line) for line in f]
 
 gold_labels = []
@@ -36,8 +36,20 @@ for pred_entry in pred_data:
     gold = [l if l != "named_entity" else "other" for l in gold_entry["labels_unified"]]
     # Normalize predicted labels
     pred = [l if l == "oth" else l for l in pred_entry["llama_labels"]]
-    pred = [l if l != "eng" else "en" for l in pred]
+    #pred = [l if l != "eng" else "en" for l in pred]
     pred = [l if l != "id" else "ind" for l in pred]
+    pred = [l if l != "idn" else "ind" for l in pred]
+    pred = [l if l != "ids" else "ind" for l in pred]
+    pred = [l if l != "esp" else "spa" for l in pred]
+    pred = [l if l != "hind" else "hin" for l in pred]
+    pred = [l if l != "hnd" else "hin" for l in pred]
+    pred = [l if l != "hi" else "hin" for l in pred]
+    pred = [l if l != "hne" else "hin" for l in pred]
+    pred = [l if l != "germ" else "deu" for l in pred]
+    pred = [l if l != "arab" else "arb" for l in pred]
+    pred = [l if l != "ara" else "arb" for l in pred]
+    pred = [l if l != "arabic" else "arb" for l in pred]
+    pred = [l if l != "turk" else "tur" for l in pred]
     pred = [l if l != "oth" else "other" for l in pred]
 
     if len(gold) != len(pred):
@@ -76,6 +88,14 @@ for l, p, r, f, s in zip(label_set, precision, recall, f1, support):
 print("\nLabel\tPrecision\tRecall\tF1\tSupport")
 for row in results:
     print(f"{row[0]}\t{row[1]}\t\t{row[2]}\t\t{row[3]}\t{row[4]}")
+
+# Overall accuracy (based only on included labels)
+# Filter out any labels not in included_labels
+filtered_gold = [g for g, p in zip(gold_labels, pred_labels) if g in included_labels]
+filtered_pred = [p for g, p in zip(gold_labels, pred_labels) if g in included_labels]
+
+accuracy = accuracy_score(filtered_gold, filtered_pred)
+print(f"\nOverall Accuracy (included labels only): {round(accuracy, 3)}")
 
 # Compute false positive rate (included labels only)
 false_positives = 0
