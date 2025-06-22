@@ -44,7 +44,7 @@ def map_label(label):
     lang_map = {
         "lang1": "arb",
         "lang2": "arz",
-        "ne": "named_entity",
+        "ne": "other",
         "other": "other",
         "un": "other"
     }

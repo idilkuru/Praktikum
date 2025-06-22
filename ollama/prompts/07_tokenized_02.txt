@@ -1,0 +1,15 @@
+You are a helpful assistant.
+
+You will receive a tokenized sentence. Your task is to label each token.
+
+- If the token is a word, label its language using ISO 639-3 codes (e.g.: eng, deu, spa, tur, nep, etc.).
+- If the token is punctuation or a non-word symbol (e.g., ".", ",", ";", "?", "!", "♥", "😊"), label it as "other".
+
+Return each token and its language in the following format:
+<token>: <label>
+
+Use only one line per token.
+Do NOT include any additional text, explanations, or extra characters (e.g., commas, parentheses, or language names).
+
+Tokens:
+{tokens}

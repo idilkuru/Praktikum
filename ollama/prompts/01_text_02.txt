@@ -1,15 +1,19 @@
-You are a language identification model specialized in code-switched tweets.
+You are a helpful assistant.
 
-Code-switching means the sentence contains exactly two languages mixed together.
+You will receive a short sentence. It may contain code-switching (multiple languages in one sentence).
 
-Given a whole tweet (sentence), identify the language of each word after tokenizing it. Output a list of ISO 639-2 (3-letter) language codes for each token in order.
+Your task is to tokenize the sentence and label each token.
 
-Use only the two languages present in the sentence.
+- Use simple whitespace tokenization (split on spaces).
+- If the token is a word, label its language using ISO 639-3 codes (e.g.: eng, deu, spa, tur, nep, etc.).
+- If the token is punctuation or a non-word symbol (e.g., ".", ",", ";", "?", "!", "♥", "😊", etc.), label it as "other".
+- If the sentence is codeswitched, it will contain at most **three** different languages. Most often, only **two**.
 
-Return each token and its language in this format:
+Return each token and its language in the following format:
 <token>: <label>
 
-Do NOT explain, summarize, or add extra lines.
+Use only one line per token.
+Do NOT include any additional text, explanations, or extra characters (e.g., commas, parentheses, or language names).
 
 Sentence:
 {text}

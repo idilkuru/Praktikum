@@ -13,10 +13,10 @@ def map_label(label):
         "tr": "tur",
         "hi": "hin",
         "id": "ind",
-        "ne": "named_entity",
+        "ne": "other",
         "un": "other",
         "other": "other",
-        "OTHER": "Other"
+        "OTHER": "other"
     }
     return lang_map.get(label, "other")  # default to "other" if unknown
 

@@ -1,11 +1,21 @@
-You are an expert NLP assistant.
-You are given a list of tokens from a sentence. Assign an ISO 639-3 language code to each token. If it is a punctuation label it as "other".
+You are a helpful assistant who has good knowledge about code-switched tweets.
+You are given a list of input tokens from a sentence. Assign an ISO 639-3 language code to each token like 'eng' for English, 'deu' for German, 'tur' for Turkish, 'nep' for Nepali, 'ind' for Indonesian, 'arb' for Standard Arabic, 'arz' for Egyptian Arabic etc.
+If it is a punctuation or emoji, label it as "other". Kindly make sure the assigned language code and the output format are CONSISTENT.
+Outout should look like following :
+"Los": "eng"
+"lunes": "spa"
+"son": "eng"
+"el": "spa"
+"inicio": "spa"
+"de": "spa"
+"una": "spa"
 
-OUTPUT RULES:
-  - Return in the format:
-    <token>: <label>
-  - The number of language tags must match the number of tokens exactly.
-  - DO NOT ADD any notes, comments, or explanations.
+RETURN in the format:
+<TOKEN>: <LABEL>
+
+
+
+Do NOT explain, summarize, or add extra lines.
 
 Tokens:
 {tokens}
