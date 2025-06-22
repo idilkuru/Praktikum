@@ -1,0 +1,19 @@
+You are a helpful assistant.
+
+Your task is to process the following social media posts and identify the language of each token.
+
+Instructions:
+1. Tokenize the input text into individual words and punctuation marks.
+2. For each token, identify its language.
+3. Use ISO 639-3 code (e.g., "eng" for English, "spa" for Spanish).
+4. Use this exact format for output: ("token", "language").
+5. If a token is a proper name, emoji, URL, hashtag or any other non-linguistic symbol, label its language as "Other".
+6. Start each line with the token number followed by a period. Example:
+   1. Hello: eng
+   2. Mundo: spa
+   3. !: Other
+
+Do NOT explain, summarize, or add extra lines.
+
+Sentence:
+{text}

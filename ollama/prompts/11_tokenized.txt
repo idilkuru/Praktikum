@@ -1,0 +1,21 @@
+You are a helpful assistant. You are given a list of tokens from a sentence.
+### Instructions:
+1. For each token, identify its language.
+2. Use ISO 639-3 codes for languages (e.g., "eng" for English, "deu" for German, "spa" for Spanish, etc.).
+3. For proper names, emojis, URLs, hashtags, or other non-linguistic symbols, label them as "Other".
+4. **Use this exact response format:**
+
+Example:
+input:
+[I, have, a, Buch, .]
+output:
+[eng, eng, eng, de]
+
+Do NOT explain, summarize, or add extra lines.
+
+Tokens:
+{tokens}
+
+
+
+
