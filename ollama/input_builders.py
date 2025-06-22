@@ -1,6 +1,5 @@
 # Responsible for creating different input variations from the data
 
-import spacy
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -15,13 +14,30 @@ def build_input_raw_tokens(entry):
     """Return raw tokens only."""
     return entry["tokens"]
 
-nlp = spacy.load("en_core_web_sm")
+
 def build_input_tokenized(entry):
-    """Use spaCy to tokenize the text and return list of tokens."""
+    import spacy
+    nlp = spacy.load("en_core_web_sm")
+
+    """Tokenize text using spaCy and return it as a dict with 'tokens' key."""
+    doc = nlp(entry["text"])
+    tokens = [token.text for token in doc]
+    token_str = " ".join(tokens)  # or "\n".join(tokens) if your prompt prefers line breaks
+    print("[DEBUG] Tokenized input:", tokens)
+    return {"tokens": token_str}
+
+
+"""
+def build_input_tokenized(entry):
+    import spacy
+    nlp = spacy.load("en_core_web_sm")
+
+    #Use spaCy to tokenize the text and return list of tokens.
     doc = nlp(entry["text"])
     tokens = [token.text for token in doc]
     print(f"[DEBUG] Tokenized input: {tokens}")  # Add this line
     return " ".join(tokens)  # returns string for prompt injection
+"""
 
 def build_input_dominant_lang(entry):
     """Return text with dominant language label (to be implemented)."""
