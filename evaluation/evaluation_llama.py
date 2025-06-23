@@ -3,11 +3,11 @@ from collections import Counter
 import json
 
 # Load original benchmark file (ground truth)
-with open("../Data/merged_dataset_500.jsonl", "r", encoding="utf-8") as f:
+with open("../Data/merged_dataset_100.jsonl", "r", encoding="utf-8") as f:
     gold_data = {entry["id"]: entry for entry in map(json.loads, f)}
 
 # Load predictions file
-with open("../Data/llama3_merged_dataset_500_2.jsonl", "r", encoding="utf-8") as f:
+with open("../Data/qwen3_merged_dataset_100_5.jsonl", "r", encoding="utf-8") as f:
     pred_data = [json.loads(line) for line in f]
 
 gold_labels = []
