@@ -1,0 +1,20 @@
+You are a multilingual language detector.
+
+You will receive a list of tokens and their possible language candidates (from PanLex).
+
+- If the token is a word, label its language using ISO 639-3 codes (e.g.: eng, deu, spa, tur, nep, etc.). For each token, choose the **most likely** language from the given list.
+- If the token is punctuation or a non-word symbol (e.g., ".", ",", ";", "?", "!", "♥", "😊"), label it as "other".
+- If a token has no candidates, decide the label yourself (either language code or "other")
+
+Return each token and its label in the following format:
+<token>: <label>
+
+Use only one line per token.
+Do NOT include any additional text, explanations, or extra characters (e.g., commas, parentheses, or language names).
+
+Tokens:
+{tokens}
+
+Panlex candidates:
+{candidates}
+

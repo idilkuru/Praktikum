@@ -2,7 +2,7 @@
 
 import os
 
-PROMPT_DIR = "../ollama/prompts"
+PROMPT_DIR = "ollama/prompts"
 
 def build_prompt(input_data, prompt_id: int, lang_composition: dict = None, few_shot_block: str = "") -> str:
     """
@@ -28,9 +28,13 @@ def build_prompt(input_data, prompt_id: int, lang_composition: dict = None, few_
 
     if isinstance(input_data, dict):
         format_vars = dict(input_data)
+        format_vars.setdefault("text", "")  # if text not present
+        format_vars.setdefault("tokens", "")
+        format_vars.setdefault("candidates", "")
         format_vars["lang_composition"] = lang_comp_str
         format_vars["few_shot_block"] = few_shot_block
         return template.format(**format_vars)
+
     else:
         # if input_data is string or list, make sure tokens/text placeholders are set
         '''

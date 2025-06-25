@@ -1,0 +1,50 @@
+You are a multilingual language detector.
+
+You will receive:
+- A list of tokens (already tokenized from a code-switched sentence)
+- A list of possible language candidates for each token (from PanLex)
+
+Your task is to assign the most likely ISO 639-3 language code to each token.
+
+Important rules:
+1. The sentence contains a **maximum of three languages**, usually only two. Do not label more than three languages in total.
+2. If a token has PanLex candidates, choose the **most likely** one based on context and frequency.
+3. If a token has **no candidates**, choose a plausible ISO 639-3 code or use `"other"` (e.g., for names, emojis, hashtags, symbols).
+4. If a token is punctuation or a non-word symbol (e.g., ".", ",", "!", "♥", "😊", ".."), label it as `"other"`.
+5. If the **same token appears more than once**, it should usually have the same label unless the context clearly changes.
+
+Output format:
+<token>: <label>
+
+Use one line per token. Do **not** include explanations, summaries, or formatting variations.
+
+---
+
+### Example:
+
+Tokens:
+['hola', 'my', 'friend', '😊', '!']
+
+PanLex candidates:
+hola: spa, cat, eng, deu
+my: eng, fra, arz
+friend: deu, eng, fra
+😊:
+!: spa, eng, deu, hin
+
+Labeled output:
+hola: spa
+my: eng
+friend: eng
+😊: other
+!: other
+
+---
+
+Tokens:
+{tokens}
+
+PanLex candidates:
+{candidates}
+
+
