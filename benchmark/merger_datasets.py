@@ -45,31 +45,31 @@ def merge_custom_datasets(datasets):
     for i, dataset in enumerate(datasets):
         if i == 0:
             # Dataset 01: keep 20% with eng+spa
-            subset = select_subset(dataset, ["eng", "spa"], 0.015* 0.25)
+            subset = select_subset(dataset, ["eng", "spa"], 0.04)
             merged.extend(subset)
         elif i == 1:
             # Dataset 02: keep 11% with eng+ind
-            subset = select_subset(dataset, ["eng", "ind"], 0.12)
+            subset = select_subset(dataset, ["eng", "ind"])
             merged.extend(subset)
         elif i == 3:
             # Dataset 04: keep 11% with tur+deu
-            subset = select_subset(dataset, ["tur", "deu"], 0.040)
+            subset = select_subset(dataset, ["tur", "deu"])
             merged.extend(subset)
         elif i == 2:
-            # Dataset 03: keep 11% with tur+deu
-            subset = select_subset(dataset, ["eng", "hin"], 0.20)
+            # Dataset 03: keep 11% with eng+hin
+            subset = select_subset(dataset, ["eng", "hin"])
             merged.extend(subset)
         elif i == 4:
             # Dataset 05: keep 35% with arb+arz
-            subset = select_subset(dataset, ["arb", "arz"], 0.033* 0.30)
+            subset = select_subset(dataset, ["arb", "arz"], 0.091)
             merged.extend(subset)
         elif i == 5:
             # Dataset 06: keep 45% random
-            subset = select_subset(dataset, None, 0.033* 0.30)
+            subset = select_subset(dataset, None, 0.09)
             merged.extend(subset)
         elif i == 6:
             # Dataset 07: keep 60% random
-            subset = select_subset(dataset, None, 0.050* 0.30)
+            subset = select_subset(dataset, None, 0.18)
             merged.extend(subset)
         else:
             # All others: keep full dataset
@@ -110,7 +110,7 @@ if __name__ == "__main__":
 
     # Save custom smaller merged dataset
     merged_custom = merge_custom_datasets(all_datasets)
-    output_path_custom = "../Data/merged_dataset_500.jsonl"
+    output_path_custom = "../Data/merged_dataset_5000.jsonl"
     with open(output_path_custom, "w", encoding="utf-8") as f:
         for entry in merged_custom:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")

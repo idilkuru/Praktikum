@@ -2,12 +2,11 @@
 import json
 from input_builders import *
 from prompt_builder import build_prompt
+import numpy as np
 from model_runner import query_llm
 from output_formatter import format_output
 from config import CONFIG
 from pathlib import Path
-import numpy as np
-import fasttext
 #LID_MODEL = fasttext.load_model("../models/lid.176.bin")
 
 
@@ -17,8 +16,7 @@ INPUT_BUILDERS = {
     "tokenized": build_input_tokenized,
     "dominant_lang": build_input_dominant_lang,
     "fasttext_lid": build_input_fasttext_lid,
-    "token_lid": build_input_token_lid,
-    "panlex": build_input_panlex
+    "maskLid": build_input_token_lid
 }
 
 # Loading few-shot blocks
