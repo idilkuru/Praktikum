@@ -50,6 +50,7 @@ for pred_entry in pred_data:
     pred = [l if l != "ara" else "arb" for l in pred]
     pred = [l if l != "arabic" else "arb" for l in pred]
     pred = [l if l != "turk" else "tur" for l in pred]
+    pred = [l if l != "npi" else "nep" for l in pred]
     pred = [l if l != "oth" else "other" for l in pred]
 
     if len(gold) != len(pred):
