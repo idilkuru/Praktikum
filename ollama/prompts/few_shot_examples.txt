@@ -3,11 +3,6 @@
 "son": other
 "el": spa
 "inicio": spa
-"de": spa
-"una": spa
-"semana": spa
-"llena": spa
-"de": spa
 "bendiciones": spa
 "familia": spa
 "!!": other
@@ -17,3 +12,14 @@
 "ama": spa
 ".." : other
 ".…": other
+"Yek": nep
+"din": nep
+"ma": nep
+"3-4": other
+"ota": nep
+"sarkaari": nep
+"kaam": nep
+"sakchhu": nep
+"bhanera": nep
+"bichar": nep
+"garnu": nep

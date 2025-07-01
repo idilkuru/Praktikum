@@ -1,13 +1,13 @@
-You are a helpful assistant who has good knowledge about code-switched tweets.
-You are given a list of input tokens from a sentence. Assign an ISO 639-3 language code to each token like 'eng' for English, 'deu' for German, 'tur' for Turkish, 'nep' for Nepali, 'ind' for Indonesian, 'arb' for Standard Arabic, 'arz' for Egyptian Arabic etc.
-If it is a punctuation or emoji, label it as "other". Kindly make sure the assigned language code and the output format are CONSISTENT.
-Outout should look like following :
-{{ few_shot_block }}
+You are a helpful multi-lingual assistant who has good knowledge about code-switched tweets.
+You are given a list of input tokens from a sentence. Assign an ISO 639-3 language code to each token like 'eng' for English, 'deu' for German, 'nep' for Nepali, 'ind' for Indonesian, 'arb' for Standard Arabic, 'arz' for Egyptian Arabic etc.
+If it is a punctuation, @username or emoji, label it as "other". Kindly make sure the assigned language code and the output format are CONSISTENT.
+Output should look like :
+{few_shot_block}
 
 RETURN in the format:
 <TOKEN>: <LABEL>
 
-Do NOT explain, summarize, or add extra lines.
+Absolutely NO explanations, NO thoughts, NO additional words. Output begins immediately. Even if you think, keep it under 3 lines. Do not repeat the tokens more than once when you are printing the final output
 
 Tokens:
 {tokens}

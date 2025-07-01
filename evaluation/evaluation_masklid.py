@@ -2,6 +2,8 @@ import json
 import difflib
 from collections import defaultdict, Counter
 from sklearn.metrics import classification_report, accuracy_score
+from sklearn.metrics import confusion_matrix
+import numpy as np
 
 # File path (single file with both benchmark and prediction)
 data_path = "../Data/masklid_merged_dataset_6000.jsonl"
@@ -9,6 +11,54 @@ data_path = "../Data/masklid_merged_dataset_6000.jsonl"
 def load_jsonl(path):
     with open(path, "r", encoding="utf-8") as f:
         return [json.loads(line) for line in f]
+
+
+def compute_fpr_from_confusion_matrix(y_true, y_pred, labels):
+    cm = confusion_matrix(y_true, y_pred, labels=labels)
+    fpr_per_class = {}
+    total_TP = total_FP = total_TN = total_FN = 0
+
+    for i, label in enumerate(labels):
+        TP = cm[i, i]
+        FP = cm[:, i].sum() - TP
+        FN = cm[i, :].sum() - TP
+        TN = cm.sum() - (TP + FP + FN)
+
+        total_TP += TP
+        total_FP += FP
+        total_FN += FN
+        total_TN += TN
+
+        fpr = FP / (FP + TN) if (FP + TN) > 0 else 0.0
+        fpr_per_class[label] = {
+            "TP": TP, "FP": FP, "FN": FN, "TN": TN,
+            "FPR": fpr
+        }
+
+    # Overall FPR
+    overall_fpr = total_FP / (total_FP + total_TN) if (total_FP + total_TN) > 0 else 0.0
+
+    return fpr_per_class, overall_fpr, total_FP, total_TN
+
+def print_fpr_for_selected_languages(fpr_stats, languages):
+    selected_fprs = []
+    print("\n--- False Positive Rate for Selected Languages ---")
+    for lang in languages:
+        stats = fpr_stats.get(lang)
+        if stats:
+            fpr = stats['FPR']
+            fp = stats['FP']
+            tn = stats['TN']
+            print(f"{lang:>6}: FPR = {fpr:.4f}, FP = {fp}, TN = {tn}")
+            selected_fprs.append(fpr)
+        else:
+            print(f"{lang:>6}: No data found")
+
+    if selected_fprs:
+        avg_fpr = sum(selected_fprs) / len(selected_fprs)
+        print(f"\nAverage FPR for included languages: {avg_fpr:.4f}")
+    else:
+        print("No FPR data available for the selected languages.")
 
 def evaluate_code_switching(data):
     benchmark_labels = []
@@ -108,6 +158,53 @@ def evaluate_code_switching(data):
     for label in labels:
         fp = fp_per_label.get(label, 0)
         print(f"{label:>12}: FP = {fp}")
+
+
+    # False Positives per label
+    print("\n--- False Positives per Label ---")
+    labels = sorted(total_per_label.keys())
+    total_fp = 0
+    total_tp = 0
+    for label in labels:
+        fp = fp_per_label.get(label, 0)
+        tp = tp_per_label.get(label, 0)
+        total_fp += fp
+        total_tp += tp
+        print(f"{label:>12}: FP = {fp}")
+
+    total_predictions = total_fp + total_tp
+    fp_rate = total_fp / total_predictions if total_predictions > 0 else 0.0
+    print(f"\nTotal False Positives: {total_fp}")
+    print(f"Total True Positives:  {total_tp}")
+    print(f"False Positive Rate (FP / [TP + FP]): {fp_rate:.4f}")
+
+    # False Positive Rate (Global)
+    total_fn = sum(fn_per_label.values())
+    total_tn = total_aligned - total_fp - total_tp - total_fn
+    total_predictions_with_negatives = total_fp + total_tn
+    global_fpr = total_fp / total_predictions_with_negatives if total_predictions_with_negatives > 0 else 0.0
+
+
+    #print(f"Total False Negatives: {total_fn}")
+    #print(f"Total True Negatives:  {total_tn}")
+    #print(f"False Positive Rate (FP / [FP + TN]): {global_fpr:.4f}")
+
+
+    #TN, FP Rate
+    labels = sorted(set(benchmark_labels + predicted_labels))
+    fpr_stats, overall_fpr, total_FP, total_TN = compute_fpr_from_confusion_matrix(benchmark_labels, predicted_labels,
+                                                                                   labels)
+    print("\n--- False Positive Rate (FPR) per Label ---")
+    for label, stats in fpr_stats.items():
+        print(f"{label:>12}: FPR = {stats['FPR']:.4f}, TN = {stats['TN']}, FP = {stats['FP']}")
+    print("\n--- Overall False Positive Rate ---")
+    print(f"Total FP: {total_FP}")
+    print(f"Total TN: {total_TN}")
+    print(f"Overall FPR (FP / [FP + TN]): {overall_fpr:.4f}")
+
+    # TN, FP-Rate for selected languages
+    languages_of_interest = ["arb", "arz", "deu", "eng", "hin", "ind", "nep", "other", "spa", "tur"]
+    print_fpr_for_selected_languages(fpr_stats, languages_of_interest)
 
     # Classification Report
     print("\n--- Classification Report ---")
