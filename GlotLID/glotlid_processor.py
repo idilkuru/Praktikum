@@ -12,24 +12,32 @@ class GlotLIDProcessor:
         model_path = hf_hub_download(repo_id="cis-lmu/glotlid", filename="model.bin")
         self.model = fasttext.load_model(model_path)
 
-    def detect_language(self, text):
+    def detect_language(self, text, threshold=0.1, max_languages=10):
         try:
             if not text or not isinstance(text, str) or not text.strip():
-                return {"language": "unk", "confidence": 0.0, "is_reliable": False}
+                return {"languages": [], "is_reliable": False}
 
-            labels, probabilities = self.model.predict(text, k=1)
-            label = labels[0].replace("__label__", "")
-            score = probabilities[0]
+            labels, probs = self.model.predict(text, k=max_languages)
+
+            results = [
+                {
+                    "language": label.replace("__label__", ""),
+                    "confidence": float(prob)
+                }
+                for label, prob in zip(labels, probs)
+                if prob >= threshold
+            ]
+
+            is_reliable = results[0]["confidence"] > 0.7 if results else False
 
             return {
-                "language": label,
-                "confidence": float(score),
-                "is_reliable": bool(score > 0.7)
+                "languages": results,
+                "is_reliable": is_reliable
             }
 
         except Exception as e:
             print(f"Error processing text: {str(e)}")
-            return {"language": "error", "confidence": 0.0, "is_reliable": False}
+            return {"languages": [], "is_reliable": False}
 
     def process_jsonl(self, input_path, output_path, text_field="text", batch_size=100):
         with open(input_path, "r", encoding="utf-8") as f:
@@ -80,8 +88,8 @@ class GlotLIDProcessor:
             df = pd.DataFrame(data)
             lang_info = df['language_info']
 
-        df['language'] = lang_info.apply(lambda x: x['language'])
-        df['confidence'] = lang_info.apply(lambda x: x['confidence'])
+        df['language'] = lang_info.apply(lambda x: x['languages'][0]['language'] if x['languages'] else 'unk')
+        df['confidence'] = lang_info.apply(lambda x: x['languages'][0]['confidence'] if x['languages'] else 0.0)
 
         metrics = {
             "total_posts": len(df),
