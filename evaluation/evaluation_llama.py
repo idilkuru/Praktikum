@@ -1,13 +1,13 @@
-from sklearn.metrics import precision_recall_fscore_support, accuracy_score
+from sklearn.metrics import precision_recall_fscore_support, accuracy_score, matthews_corrcoef, hamming_loss
 from collections import Counter
 import json
 
-# Load original benchmark file (ground truth)
-with open("../Data/merged_dataset_2400.jsonl", "r", encoding="utf-8") as f:
+# Loading original benchmark file (ground truth)
+with open("../Data/merged_dataset_1800.jsonl", "r", encoding="utf-8") as f:
     gold_data = {entry["id"]: entry for entry in map(json.loads, f)}
 
-# Load predictions file
-with open("../Data/groq_merged_dataset_700.jsonl", "r", encoding="utf-8") as f:
+# Loading predictions file
+with open("../Data/8_groq_r1_merged_dataset_1800.jsonl", "r", encoding="utf-8") as f:
     pred_data = [json.loads(line) for line in f]
 
 gold_labels = []
@@ -36,7 +36,6 @@ for pred_entry in pred_data:
     gold = [l if l != "named_entity" else "other" for l in gold_entry["labels_unified"]]
     # Normalize predicted labels
     pred = [l if l == "oth" else l for l in pred_entry["llama_labels"]]
-    #pred = [l if l != "eng" else "en" for l in pred]
     pred = [l if l != "id" else "ind" for l in pred]
     pred = [l if l != "idn" else "ind" for l in pred]
     pred = [l if l != "ids" else "ind" for l in pred]
@@ -53,14 +52,17 @@ for pred_entry in pred_data:
     pred = [l if l != "npi" else "nep" for l in pred]
     pred = [l if l != "oth" else "other" for l in pred]
 
+    # ✂️ Handle mismatch: truncate to shortest length
     if len(gold) != len(pred):
         mismatch_ids.append((id_, len(gold), len(pred)))
-        continue  # skip mismatched
+        min_len = min(len(gold), len(pred))
+        gold = gold[:min_len]
+        pred = pred[:min_len]
 
     gold_labels.extend(gold)
     pred_labels.extend(pred)
 
-    # Store per-sample for later exact match filtering
+    # Store per-sample for exact match calculation
     exact_match_candidates.append((id_, gold, pred))
 
 # Report mismatches
@@ -96,7 +98,7 @@ filtered_gold = [g for g, p in zip(gold_labels, pred_labels) if g in included_la
 filtered_pred = [p for g, p in zip(gold_labels, pred_labels) if g in included_labels]
 
 accuracy = accuracy_score(filtered_gold, filtered_pred)
-print(f"\nOverall Accuracy (included labels only): {round(accuracy, 3)}")
+print(f"\nOverall Accuracy (all labels): {round(accuracy, 3)}")
 
 # Compute false positive rate (included labels only)
 false_positives = 0
@@ -109,7 +111,7 @@ for g_label, p_label in zip(gold_labels, pred_labels):
             false_positives += 1
 
 false_positive_rate = false_positives / total_pred_tokens if total_pred_tokens > 0 else 0
-print(f"\nFalse Positive Rate (included labels only): {false_positive_rate:.3f}")
+print(f"\nFalse Positive Rate (all labels): {false_positive_rate:.3f}")
 
 # Compute exact match (included labels only)
 for id_, gold_seq, pred_seq in exact_match_candidates:
@@ -120,5 +122,13 @@ for id_, gold_seq, pred_seq in exact_match_candidates:
         exact_match_count += 1
     total_included_sequences += 1
 
+
+# Computing Matthews Correlation Coefficient (MCC)
+mcc = matthews_corrcoef(gold_labels, pred_labels)
+print(f"Matthews Correlation Coefficient (MCC): {round(mcc, 3)}")
+
+hamming = hamming_loss(gold_labels, pred_labels)
+print(f"Hamming Loss: {round(hamming, 3)}")
+
 exact_match_accuracy = exact_match_count / total_included_sequences if total_included_sequences > 0 else 0
-print(f"Exact Match Accuracy (included labels only): {exact_match_accuracy:.3f}")
+print(f"Exact Match Accuracy (all labels): {exact_match_accuracy:.3f}")
