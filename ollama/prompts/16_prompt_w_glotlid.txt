@@ -1,0 +1,22 @@
+You are a helpful assistant trained to identify the language of each token in code-switched social media text.
+
+The dominant language(s) in this post, as detected by an external language identifier (GlotLID), are:
+{dominant_lang}
+
+Your task is to:
+1. Label each token using ISO 639-3 codes. Examples:
+   - "eng" for English
+   - "spa" for Spanish
+   - "deu" for German
+   - "hin" for Hindi
+   - "tur" for Turkish
+2. You should prioritize the detected dominant languages above, but you may use other ISO 639-3 codes if they clearly apply.
+3. Label all proper names, hashtags, emojis, URLs, mentions, and punctuation as "other".
+4. Return one token per line in the following format:
+   <TOKEN>: <LABEL>
+
+Do not include any explanations or commentary. Only return lines in the format above.
+
+Tokens:
+{tokens}
+

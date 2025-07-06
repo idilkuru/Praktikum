@@ -4,20 +4,38 @@ from pathlib import Path
 import fasttext
 from huggingface_hub import hf_hub_download
 from tqdm import tqdm
+from config import Config
+import re
 
 
 class GlotLIDProcessor:
     def __init__(self):
-        #Initialize FastText language identification model
-        model_path = hf_hub_download(repo_id="cis-lmu/glotlid", filename="model.bin")
+        # Initialize FastText language identification model
+        model_path = hf_hub_download(repo_id=Config.MODEL_NAME, filename="model.bin")
         self.model = fasttext.load_model(model_path)
 
-    def detect_language(self, text, threshold=0.1, max_languages=10):
+    def clean_text(self, text):
+        """
+        Keep more Unicode characters (e.g. Turkish, Hindi, emoji),
+        and only strip out obvious punctuation/symbols.
+        """
+        # keep any token with at least one letter
+        tokens = re.findall(r'\b\w+\b', text, flags=re.UNICODE)
+        cleaned_tokens = [tok for tok in tokens if any(c.isalpha() for c in tok)]
+        return " ".join(cleaned_tokens)
+
+    def detect_language(self, text, threshold=Config.CONFIDENCE_THRESHOLD, max_languages=10):
         try:
             if not text or not isinstance(text, str) or not text.strip():
                 return {"languages": [], "is_reliable": False}
 
-            labels, probs = self.model.predict(text, k=max_languages)
+            # fallback for short texts
+            if len(text.split()) <= 3:
+                cleaned_text = text
+            else:
+                cleaned_text = self.clean_text(text)
+
+            labels, probs = self.model.predict(cleaned_text, k=max_languages)
 
             results = [
                 {
@@ -28,7 +46,7 @@ class GlotLIDProcessor:
                 if prob >= threshold
             ]
 
-            is_reliable = results[0]["confidence"] > 0.7 if results else False
+            is_reliable = results[0]["confidence"] > 0.5 if results else False
 
             return {
                 "languages": results,
@@ -72,7 +90,7 @@ class GlotLIDProcessor:
         if output_path.endswith('.csv'):
             pd.DataFrame(results).to_csv(output_path, index=False, mode='a')
         else:
-            with open(output_path, "a", encoding="utf-8") as f:
+            with open(output_path, "w", encoding="utf-8") as f:
                 for result in results:
                     f.write(json.dumps(result) + "\n")
 
@@ -101,8 +119,8 @@ class GlotLIDProcessor:
             },
             "top_languages": df['language'].value_counts().head(10).to_dict(),
             "reliable_predictions": {
-                "count": len(df[df['confidence'] > 0.7]),
-                "percentage": len(df[df['confidence'] > 0.7]) / len(df) * 100
+                "count": len(df[df['confidence'] > 0.5]),
+                "percentage": len(df[df['confidence'] > 0.5]) / len(df) * 100
             }
         }
 
@@ -118,11 +136,12 @@ if __name__ == "__main__":
     processor = GlotLIDProcessor()
 
     processor.process_jsonl(
-        input_path="data/merged_dataset_500.jsonl",
-        output_path="results/enhanced_dataset.jsonl",
-        text_field="text"
+        input_path=Config.INPUT_PATH,
+        output_path=Config.OUTPUT_PATH,
+        text_field=Config.TEXT_FIELD,
+        batch_size=Config.BATCH_SIZE
     )
 
-    metrics = processor.generate_metrics("results/enhanced_dataset.jsonl")
+    metrics = processor.generate_metrics(Config.OUTPUT_PATH)
     print("\nLanguage Metrics:")
     print(json.dumps(metrics, indent=2))
