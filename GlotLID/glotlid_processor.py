@@ -4,7 +4,7 @@ from pathlib import Path
 import fasttext
 from huggingface_hub import hf_hub_download
 from tqdm import tqdm
-from config import Config
+from .config import Config
 import re
 
 

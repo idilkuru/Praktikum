@@ -7,7 +7,7 @@ with open("../Data/merged_dataset_1800.jsonl", "r", encoding="utf-8") as f:
     gold_data = {entry["id"]: entry for entry in map(json.loads, f)}
 
 # Loading predictions file
-with open("../Data/8_groq_r1_merged_dataset_1800.jsonl", "r", encoding="utf-8") as f:
+with open("../Data/9_groq_r1_merged_dataset_1800.jsonl", "r", encoding="utf-8") as f:
     pred_data = [json.loads(line) for line in f]
 
 gold_labels = []

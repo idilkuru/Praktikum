@@ -184,3 +184,30 @@ def build_input_panlex(entry):
         "tokens": tokens,
         "candidates": candidates,
     }
+
+from GlotLID.glotlid_processor import GlotLIDProcessor
+from prompt_builder import build_prompt
+from config import CONFIG
+
+def build_input_glotlid(entry):
+    processor = GlotLIDProcessor()
+    lang_info = processor.detect_language(entry["text"])
+    top_langs = lang_info.get("languages", [])
+
+    if top_langs:
+        glotlid_context = "\n".join([
+            f"- {item['language'].split('_')[0]} (confidence: {item['confidence']:.2f})"
+            for item in top_langs
+        ])
+    else:
+        glotlid_context = "No reliable language prediction available."
+
+    tokens = entry["tokens"]
+
+    return {
+        "tokens": tokens,
+        "text": entry["text"],
+        "glotlid_context": glotlid_context,
+    }
+
+

@@ -1,0 +1,27 @@
+You are a helpful multilingual assistant.
+
+Your task is to identify the language of each token from a social media post.
+
+Heuristic language detection (sentence-level):
+{glotlid_context}
+
+Instructions:
+1. Identify the language of each token using your own knowledge and the above heuristic as soft guidance.
+2. Use ISO 639-3 codes (e.g., "eng" for English, "spa" for Spanish, etc.).
+3. Label proper names, emojis, hashtags, URLs, and other non-linguistic symbols as "other".
+4. Format the output exactly like this:
+<token>: <label>
+5. Output one line per token.
+6. Do NOT include any extra explanation. If explanation is needed, keep it under 4 lines.
+
+Example:
+"Los": "eng"
+"lunes": "spa"
+"son": "eng"
+"el": "spa"
+"inicio": "spa"
+"de": "spa"
+"una": "spa"
+
+Tokens:
+{tokens}
