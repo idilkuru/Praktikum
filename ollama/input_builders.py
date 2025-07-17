@@ -55,7 +55,6 @@ def build_input_token_lid(entry):
     # MaskLID predictions
     label_map = run_masklid(text)
 
-    # Pretty-print predictions (as string) for the prompt
     prediction_lines = []
     for label, segment in label_map.items():
         lang_code = label.replace("__label__", "")[:3]  # trim to ISO-639-3
@@ -169,9 +168,6 @@ def build_input_panlex(entry):
 
     lines = []
     for tok in tokens:
-        # Skip short tokens (e.g. punctuation or stopwords)
-        #if len(tok) < 3:
-        #    continue
 
         langs = get_panlex_candidates(tok)
         langs_str = ", ".join(langs) if langs else ""

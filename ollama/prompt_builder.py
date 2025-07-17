@@ -1,8 +1,6 @@
-# Builds the prompt using templates and input data
 
 import os
 
-# Make PROMPT_DIR absolute relative to this file's location
 PROMPT_DIR = os.path.join(os.path.dirname(__file__), "prompts")
 
 def build_prompt(input_data, prompt_id: int, lang_composition: dict = None, few_shot_block: str = "") -> str:

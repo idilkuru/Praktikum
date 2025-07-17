@@ -2,8 +2,6 @@ import json
 import sys
 from sklearn.metrics import classification_report, confusion_matrix
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 def evaluate(jsonl_path):
     y_true = []
@@ -47,16 +45,7 @@ def evaluate(jsonl_path):
         TN = cm.sum() - (sum(cm[i, :]) + sum(cm[:, i]) - cm[i, i])
         fpr = FP / (FP + TN) if (FP + TN) > 0 else 0.0
         print(f"{label}: {fpr:.3f}")
-'''
-    # --- Plot Confusion Matrix ---
-    plt.figure(figsize=(8, 6))
-    sns.heatmap(cm, annot=True, fmt='d', xticklabels=labels, yticklabels=labels, cmap="Blues")
-    plt.xlabel("Predicted")
-    plt.ylabel("True")
-    plt.title("Confusion Matrix")
-    plt.tight_layout()
-    plt.show()
-'''
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python evaluate_predictions.py path/to/data.jsonl")
