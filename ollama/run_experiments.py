@@ -17,8 +17,9 @@ INPUT_BUILDERS = {
     "dominant_lang": build_input_dominant_lang,
     "fasttext_lid": build_input_fasttext_lid,
     "maskLid": build_input_token_lid,
-    "GlotLid": build_input_glotlid
-
+    "GlotLid": build_input_glotlid,
+    "panlex_api": build_input_panlex_api,
+    "panlex_offline": build_input_panlex_offline
 }
 
 # Loading few-shot blocks
