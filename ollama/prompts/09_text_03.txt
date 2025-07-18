@@ -1,0 +1,30 @@
+You are a helpful multilingual assistant.
+
+Your task is to process the following social media post and identify the language of each token.
+
+Instructions:
+
+Tokenize the input text into individual words and punctuation marks using whitespace and standard punctuation rules.
+For each token, identify its language.
+Use ISO 639-3 codes (e.g., "eng" for English, "spa" for Spanish and so on).
+Label proper names, emojis, hashtags, URLs, and other non-linguistic symbols as "other".
+Format the output exactly like this:
+<token>: <label>
+Output only one line per token.
+Do NOT include any thought, explanations, summaries, or extra lines. If you add explanation, strictly keep it under four lines.
+Heuristic guidance (GlotLID) for this post:
+{glotlid_context}
+
+Note: Use this heuristic as helpful guidance but do not rely on it exclusively. Your token-level identification should be based on your analysis of the text.
+
+Output Example:
+"Los": "eng"
+"lunes": "spa"
+"son": "eng"
+"el": "spa"
+"inicio": "spa"
+"de": "spa"
+"una": "spa"
+
+Tokens:
+{tokens}

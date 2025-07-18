@@ -3,27 +3,23 @@ from transformers import AutoTokenizer, AutoModelForTokenClassification
 import torch
 from tqdm import tqdm
 
-# Load model and tokenizer
-model_name = "sagorsarker/codeswitch-nepeng-lid-lince"
+model_name = "sagorsarker/codeswitch-spaeng-lid-lince"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForTokenClassification.from_pretrained(model_name)
 model.eval()
 
-# Use GPU or CPU
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
-# Input and output file paths
-input_path = "Data/merged_dataset_500.jsonl"
-output_path = "Data/merged_dataset_1500_nep.jsonl"
+input_path = "Data/merged_dataset_1800.jsonl"
+output_path = "Data/merged_dataset_1800_spa.jsonl"
 
 
 def predict_labels(tokens):
-    # Get tokenizer output as a BatchEncoding object (to access word_ids)
     encoding = tokenizer(tokens, is_split_into_words=True, return_offsets_mapping=True, return_tensors=None,
                          padding=True, truncation=True)
 
-    word_ids = encoding.word_ids()  # This works now
+    word_ids = encoding.word_ids()
     inputs = tokenizer(tokens, is_split_into_words=True, return_tensors="pt", padding=True, truncation=True)
     inputs = {k: v.to(device) for k, v in inputs.items()}
 
@@ -34,7 +30,6 @@ def predict_labels(tokens):
     predictions = torch.argmax(logits, dim=2)[0].cpu().numpy()
     id2label = model.config.id2label
 
-    # Align predictions to word-level
     token_predictions = []
     prev_word_id = None
     for idx, word_id in enumerate(word_ids):
@@ -46,7 +41,6 @@ def predict_labels(tokens):
 
     return token_predictions
 
-# Process each line and add predicted_labels
 with open(input_path, "r", encoding="utf-8") as infile, open(output_path, "w", encoding="utf-8") as outfile:
     for line in tqdm(infile, desc="Processing"):
         example = json.loads(line.strip())

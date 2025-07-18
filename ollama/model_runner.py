@@ -7,7 +7,7 @@ import subprocess
 def query_llm(prompt: str) -> str:
     provider = CONFIG.get("llm_provider", "groq")
     model = CONFIG.get("llm_model", "qwen/qwen3-32b")
-    api_key = "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"
+    api_key = "your_groq_api_key"
 
     if provider == "groq":
         headers = {

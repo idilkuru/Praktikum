@@ -1,14 +1,16 @@
-# Builds the prompt using templates and input data
 
 import os
 
-PROMPT_DIR = "ollama/prompts"
+PROMPT_DIR = os.path.join(os.path.dirname(__file__), "prompts")
 
 def build_prompt(input_data, prompt_id: int, lang_composition: dict = None, few_shot_block: str = "") -> str:
     """
     Loads the prompt template from the prompts folder using the prompt_id.
     Replaces placeholders like {text} or {masklid_predictions} depending on the prompt.
     """
+    if not os.path.exists(PROMPT_DIR):
+        raise FileNotFoundError(f"Prompt directory does not exist: {PROMPT_DIR}")
+
     prompt_files = sorted(os.listdir(PROMPT_DIR))
     try:
         selected_file = prompt_files[prompt_id]
@@ -31,16 +33,12 @@ def build_prompt(input_data, prompt_id: int, lang_composition: dict = None, few_
         format_vars.setdefault("text", "")  # if text not present
         format_vars.setdefault("tokens", "")
         format_vars.setdefault("candidates", "")
+        format_vars.setdefault("glotlid_context", "")
         format_vars["lang_composition"] = lang_comp_str
-        format_vars["few_shot_block"] = few_shot_block
+        format_vars["few_shot_block"] = few_shot_block  # empty string by default
         return template.format(**format_vars)
 
     else:
-        # if input_data is string or list, make sure tokens/text placeholders are set
-        '''
-        if isinstance(input_data, list):
-            tokens_str = " ".join(input_data)
-        '''
         if isinstance(input_data, list):
             tokens_str = "[" + ", ".join(f'"{t}"' for t in input_data) + "]"
         else:

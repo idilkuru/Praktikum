@@ -1,8 +1,6 @@
-# Converts LLM response into desired structure
-
 import re
 
-def format_output(entry_id, original_text, llm_response):
+def format_output(entry_id, original_text, llm_response, input_data=None):
     tokens = []
     labels = []
 
@@ -10,11 +8,6 @@ def format_output(entry_id, original_text, llm_response):
     for line in lines:
         line = line.strip()
 
-        # Match lines like:
-        # "token": "label"
-        # "token": label
-        # token: "label"
-        # token: label
         match = re.match(r'^["“]?(.+?)["”]?\s*:\s*["“]?([a-z]{2,5})["”]?\s*$', line)
         if match:
             token = match.group(1).strip()
@@ -22,10 +15,11 @@ def format_output(entry_id, original_text, llm_response):
             tokens.append(token)
             labels.append(label)
 
-    return {
+    result = {
         "id": entry_id,
         "text": original_text,
         "llama_tokens": tokens,
         "llama_labels": labels
     }
 
+    return result
